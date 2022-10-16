@@ -15,24 +15,18 @@ function ProductList() {
   const { currentCategory } = state;
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  // const products = data?.products || [];
-
   useEffect(() => {
     if (data) {
-      // store in global state object
       dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
       });
 
-      // save to IndexedDB
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
     } else if (!loading) {
-      // since offline, get all data from products store
       idbPromise('products', 'get').then((products) => {
-        // use retrieved data to set global state
         dispatch({
           type: UPDATE_PRODUCTS,
           products: products

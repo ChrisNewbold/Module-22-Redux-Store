@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-
 import { QUERY_PRODUCTS } from '../utils/queries';
 import spinner from '../assets/spinner.gif';
-
-// import { useStoreContext } from '../utils/GlobalState';
-// import { store } from '../../utils/GlobalState';
 import { useSelector, useDispatch } from 'react-redux';
 import { UPDATE_PRODUCTS, ADD_TO_CART, UPDATE_CART_QUANTITY, REMOVE_FROM_CART } from '../utils/actions';
 import { idbPromise } from '../utils/helpers';
-
 import Cart from '../components/Cart';
 import { parse } from 'graphql';
 
 function Detail() {
-  // const [state, dispatch] = useStoreContext();
   const state = useSelector(store => store);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -25,8 +19,6 @@ function Detail() {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   const { products, cart } = state;
-
-  // const products = data?.products || [];
 
   const addToCart = () => {
     const itemInCart = cart.find(cartItem => cartItem._id === id);

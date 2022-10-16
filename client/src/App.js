@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -16,7 +16,7 @@ import Signup from './pages/Signup';
 import Nav from './components/Nav';
 import Success from './pages/Success';
 import OrderHistory from './pages/OrderHistory';
-// import { StoreProvider } from './utils/GlobalState';
+
 import { Provider } from 'react-redux';
 import configureStore from './utils/store';
 
@@ -48,7 +48,7 @@ function App() {
         <div>
           <Provider store={store}>
             <Nav />
-            <Switch>
+            <Routes>
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
@@ -56,7 +56,7 @@ function App() {
               <Route exact path="/products/:id" component={Detail} />
               <Route exact path="/success" component={Success} />
               <Route component={NoMatch} />
-            </Switch>
+            </Routes>
           </Provider>
         </div>
       </Router>

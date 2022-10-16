@@ -11,9 +11,7 @@ function CategoryMenu() {
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
 
-  // waits until async useQuery function runs
   useEffect(() => {
-    // if categoryData exists or has changed from useQuery response
     if (categoryData) {
       dispatch({
         type: UPDATE_CATEGORIES,
@@ -32,7 +30,6 @@ function CategoryMenu() {
     }
   }, [categoryData, loading, dispatch]);
 
-  // update click handler to update global state instead of using prop from Home
   const handleClick = id => {
     dispatch({
       type: UPDATE_CURRENT_CATEGORY,
