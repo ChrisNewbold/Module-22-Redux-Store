@@ -1,34 +1,41 @@
 import React, { useEffect } from 'react';
-import ProductItem from '../ProductItem';
-import { useSelector, useDispatch } from 'react-redux';
-import { UPDATE_PRODUCTS } from '../../utils/actions';
 import { useQuery } from '@apollo/client';
+import { UPDATE_PRODUCTS } from '../../utils/actions';
+
+import ProductItem from '../ProductItem';
 import { QUERY_PRODUCTS } from '../../utils/queries';
-import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
+
+import { idbPromise } from '../../utils/helpers';
+import { useSelector, useDispatch } from 'react-redux';
 
 function ProductList() {
   const state = useSelector(state => state);
   const dispatch = useDispatch();
-
   const { currentCategory } = state;
-
   const { loading, data } = useQuery(QUERY_PRODUCTS);
+
+  // const products = data?.products || [];
 
   useEffect(() => {
     if (data) {
+      // store in global state object
       dispatch({
         type: UPDATE_PRODUCTS,
-        products: data.products,
+        products: data.products
       });
+
+      // save to IndexedDB
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
     } else if (!loading) {
+      // since offline, get all data from products store
       idbPromise('products', 'get').then((products) => {
+        // use retrieved data to set global state
         dispatch({
           type: UPDATE_PRODUCTS,
-          products: products,
+          products: products
         });
       });
     }
