@@ -9,10 +9,10 @@ import { QUERY_CATEGORIES } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 
 function CategoryMenu() {
-  const categories = useSelector(store => store.categories);
   const dispatch = useDispatch();
+  const state = useSelector(state => state);
+  const { categories } = state;
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
-
 
   useEffect(() => {
     if (categoryData) {
@@ -22,7 +22,7 @@ function CategoryMenu() {
       });
       categoryData.categories.forEach(category => {
         idbPromise('categories', 'put', category);
-      });
+      })
     } else if (!loading) {
       idbPromise('categories', 'get').then(categories => {
         dispatch({

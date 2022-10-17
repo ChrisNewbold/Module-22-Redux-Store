@@ -13,29 +13,24 @@ import './style.css';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
-
-  const state = useSelector(store => store);
   const dispatch = useDispatch();
+  const state = useSelector(state => state);
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-      dispatch({
-        type: ADD_MULTIPLE_TO_CART,
-        products: [...cart]
-      });
-    };
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+    }
 
     if (!state.cart.length) {
       getCart();
     }
   }, [state.cart.length, dispatch]);
+  console.log(state);
 
   function toggleCart() {
-    dispatch({
-      type: TOGGLE_CART
-    });
+    dispatch({ type: TOGGLE_CART });
   }
 
   function calculateTotal() {
@@ -48,11 +43,12 @@ const Cart = () => {
 
   function submitCheckout() {
     const productIds = [];
+
     state.cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
-    });
+    })
 
     getCheckout({
       variables: { products: productIds }
@@ -70,15 +66,19 @@ const Cart = () => {
   if (!state.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
-        <span role="img" aria-label="shopping-cart">🛒</span>
+        <span
+          role="img"
+          aria-label="trash">🛒</span>
       </div>
     );
   }
 
   return (
     <div className="cart">
+
       <div className="close" onClick={toggleCart}>[close]</div>
       <h2>Shopping Cart</h2>
+
       {state.cart.length ? (
         <div>
           {state.cart.map(item => (
@@ -98,7 +98,9 @@ const Cart = () => {
         </div>
       ) : (
         <h3>
-          <span role="img" aria-label="shocked">😱</span>
+          <span role="img" aria-label="shocked">
+            😱
+          </span>
           You haven't added anything to your cart yet!
         </h3>
       )}
