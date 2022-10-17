@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/mern-shopping", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://cluster0.hbpincv.mongodb.net/mern-shopping", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
