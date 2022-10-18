@@ -54,11 +54,13 @@ const resolvers = {
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
+      const order = await Order.create({ products: args.products });
+      console.log(order)
       const line_items = [];
 
-      const { products } = await order.populate('products');
-
+      // const { products } = await order.populate('products');
+      const { products } = await Order.findOne({ _id: order._id }).populate("products");
+      console.log(products)
       for (let i = 0; i < products.length; i++) {
         console.log(products[i].name, "products[i].name");
         const product = await stripe.products.create({

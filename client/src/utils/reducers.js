@@ -22,6 +22,7 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_PRODUCTS:
+      console.log(state)
       return {
         ...state,
         products: [...action.products],
@@ -38,6 +39,7 @@ export const reducer = (state = initialState, action) => {
         currentCategory: action.currentCategory
       };
     case ADD_TO_CART:
+      console.log(state)
       return {
         ...state,
         cartOpen: true,

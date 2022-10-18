@@ -21,6 +21,7 @@ function ProductItem(item) {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
 
     if (itemInCart) {
+      console.log(item)
       dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: _id,
@@ -33,6 +34,7 @@ function ProductItem(item) {
       });
     }
     else {
+      console.log(item)
       dispatch({
         type: ADD_TO_CART,
         product: { ...item, purchaseQuantity: 1 }

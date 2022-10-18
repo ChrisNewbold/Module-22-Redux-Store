@@ -19,7 +19,7 @@ function ProductList() {
         type: UPDATE_PRODUCTS,
         products: data.products
       });
-
+      console.log(data, "update")
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
